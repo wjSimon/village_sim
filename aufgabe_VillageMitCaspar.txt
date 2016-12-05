@@ -1,0 +1,33 @@
+﻿Aufgabe
+
+
+
+	Gebäudeliste
+	
+Markthaus/Rathaus <- stuff
+Marktplatz <- verkauf
+Kirche <- priester
+
+Minen <- suicicide squad
+Holzfäller <- paar dudes mit äxten
+Farm (Getreide+)/Mühle/Bäcker <- mehr dudes die nahrung machen
+Farm (Tiere+/Fischerei+) <- same
+Schmiede <- paar dudes die äxte machen
+Häuser <- da leben die dudes, müssen genug sein
+Schenke <- da chillen die dudes dann
+Kleidung <- maybe
+
+
+///
+1. it
+
+- Häuser
+- Nahrung
+- Marktplatz/Rathaus
+- Schenke
+
+2. it
+
+alles andere
+
+	
