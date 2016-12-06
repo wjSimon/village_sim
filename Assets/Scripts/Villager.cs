@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Villager : MonoBehaviour {
+public class Villager : InfoObject
+{
 
 	//villager's are the representation of the schedule/npc framework
 	//every villager has an actions he's currently performing as well as a schedule he's currently working on completing
@@ -11,15 +12,24 @@ public class Villager : MonoBehaviour {
 
 	// Use this for initialization
 
-	public List<Villager> villagers = new List<Villager>();
-	public List<Building> buildings = new List<Building>();
-	public List<Schedule> schedules = new List<Schedule>();
 
+	Schedule schedule;
+	/*
+	RaycastHit info = new RaycastHit();
+
+			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out info))
+			{
+	/**/
 	void Start () {
-	
 	}
 
 	void Update () {
 	
+	}
+
+	public override void DrawInfoGUI()
+	{
+		base.DrawInfoGUI();
+		GUI.Label(new Rect(10, 10, 200, 20), "datenVillager");
 	}
 }
