@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InfoObject : MonoBehaviour {
 
-	string info;
+	public string objectName;
 	// Use this for initialization
 	void Start () {
 	
