@@ -42,11 +42,11 @@ public class VillageManager : MonoBehaviour
 
 
 	//Resources
-	int iron = 0;
-	int pickaxe = 0;
-	int wheat = 0;
-	int flour = 0;
-	int bread = 0;
+	public int iron = 0;
+	public int pickaxe = 0;
+	public int wheat = 0;
+	public int flour = 0;
+	public int bread = 0;
 
 	public static VillageManager Get()
 	{
@@ -125,5 +125,14 @@ public class VillageManager : MonoBehaviour
 
 		string timestamp = "" + GetHours() + ":" + ((GetMinutes() >= 10) ? "" + GetMinutes() : ("0" + GetMinutes()));
 		GUI.Label(new Rect(Screen.width - 50, Screen.height - 30, 200, 20), timestamp);
+		string date = (GetDays()+1).ToString();
+		GUI.Label(new Rect(Screen.width - 50, Screen.height - 45, 200, 20), "Day " + (date));
+
+		GUI.Label(new Rect(Screen.width - 90, 50, 200, 20), "Resources");
+		GUI.Label(new Rect(Screen.width - 90, 80, 200, 20),  "Iron:    " + iron);
+		GUI.Label(new Rect(Screen.width - 90, 110, 200, 20), "Pickaxe: " + pickaxe);
+		GUI.Label(new Rect(Screen.width - 90, 140, 200, 20), "Wheat:   " + wheat);
+		GUI.Label(new Rect(Screen.width - 90, 170, 200, 20), "Flour:   " + flour);
+		GUI.Label(new Rect(Screen.width - 90, 200, 200, 20), "Bread:   " + bread);
 	}
 }
