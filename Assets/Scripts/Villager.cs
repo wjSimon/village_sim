@@ -85,7 +85,12 @@ public class Villager : InfoObject
 
 		if (current != null)
 		{
-			GUI.Label(new Rect(10, y, 200, 20), current.Info()); y += 20;
+			GUI.Label(new Rect(10, y, 200, 20), current.Info()); y += 20; y += 20;
+		}
+
+		for (int i = 0; i < schedule.tasks.Count; i++)
+		{
+			GUI.Label(new Rect(10, y, 200, 20), schedule.tasks[i].Info()); y += 20;
 		}
 	}
 }

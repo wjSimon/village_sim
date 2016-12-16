@@ -14,8 +14,8 @@ public class VillageManager : MonoBehaviour
 
 - Das selbst-erstellte NavMesh benutzen (für Villager Movement)
 - Villager haben Daily Schedules // - auto assign schedules 
-- Villager haben Arbeit, Arbeitsplätze in Form von Gebäuden <
-- Ressourcen-System < 
+- Villager haben Arbeit, Arbeitsplätze in Form von Gebäuden < DONE
+- Ressourcen-System < DONE 
 - Villager anklicken für Infos // 
 - Jahreszeiten, beeinflussen Schedules/Ressourcen
 - Villager Relations
@@ -128,7 +128,7 @@ public class VillageManager : MonoBehaviour
 		string date = (GetDays()+1).ToString();
 		GUI.Label(new Rect(Screen.width - 50, Screen.height - 45, 200, 20), "Day " + (date));
 
-		GUI.Label(new Rect(Screen.width - 90, 50, 200, 20), "Resources");
+		GUI.Label(new Rect(Screen.width - 90, 50, 200, 20),  "Resources");
 		GUI.Label(new Rect(Screen.width - 90, 80, 200, 20),  "Iron:    " + iron);
 		GUI.Label(new Rect(Screen.width - 90, 110, 200, 20), "Pickaxe: " + pickaxe);
 		GUI.Label(new Rect(Screen.width - 90, 140, 200, 20), "Wheat:   " + wheat);
