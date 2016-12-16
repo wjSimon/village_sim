@@ -42,6 +42,12 @@ public class Schedule {
 		return false;
 	}
 
+	public Building GetTarget()
+	{
+		Task tmp = tasks[currentTask];
+		return tmp.ParseTarget();
+	}
+
 	public Task GetCurrent()
 	{
 		if(currentTask < 0 || currentTask >= tasks.Count) { return null; }

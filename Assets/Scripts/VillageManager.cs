@@ -9,19 +9,44 @@ public class VillageManager : MonoBehaviour
 	//info on villagers, creates schedules for villagers, executes schedules on villagers
 	//tracks meta data like seasons if we want
 	//
+	/*
+	Village Simulation in Unity3D mit folgenden Features:
+
+- Das selbst-erstellte NavMesh benutzen (für Villager Movement)
+- Villager haben Daily Schedules // - auto assign schedules 
+- Villager haben Arbeit, Arbeitsplätze in Form von Gebäuden <
+- Ressourcen-System < 
+- Villager anklicken für Infos // 
+- Jahreszeiten, beeinflussen Schedules/Ressourcen
+- Villager Relations
+- Emotion/Happiness System
+	/**/
+
 	private static VillageManager instance;
 
 	public List<Villager> villagers = new List<Villager>();
-	public List<Building> buildings = new List<Building>();
+	private List<Building> buildings = new List<Building>();
 
 	public InfoObject selectedObject;
 
 	public double time;
+	//[HideInInspector]
+	public float deltaTime;
 	public float timeScale;
 
 	public const int oneMinute = 60;
 	public const int oneHour = 60 * oneMinute;
 	public const int oneDay = 24 * oneHour;
+
+	private double simStartTime = 7 * oneHour;
+
+
+	//Resources
+	int iron = 0;
+	int pickaxe = 0;
+	int wheat = 0;
+	int flour = 0;
+	int bread = 0;
 
 	public static VillageManager Get()
 	{
@@ -34,9 +59,11 @@ public class VillageManager : MonoBehaviour
 	}
 	void Awake()
 	{
+		time += simStartTime;
 	}
 	void Start()
 	{
+		Debug.Log(buildings.Count);
 	}
 
 	// Update is called once per frame
@@ -58,7 +85,11 @@ public class VillageManager : MonoBehaviour
 
 	void TimeUpdate()
 	{
+		double timelast = time;
 		time += Time.deltaTime * timeScale;
+		double timenew = time;
+
+		deltaTime = (float)(timenew - timelast);
 	}
 
 	public double[] DecomposeTime()
@@ -81,6 +112,9 @@ public class VillageManager : MonoBehaviour
 	public int GetMinutes() { return (int)DecomposeTime()[2]; }
 	public double GetSeconds() { return DecomposeTime()[3]; }
 	public double GetDayTime() { return time - GetDays()*oneDay; }
+
+	public void AddBuilding(Building b) { buildings.Add(b); }
+	public List<Building> GetBuildings() { return buildings; }
 
 	void OnGUI()
 	{

@@ -5,6 +5,7 @@ public class InfoObject : MonoBehaviour {
 
 	public string objectName;
 	// Use this for initialization
+
 	void Start () {
 	
 	}
