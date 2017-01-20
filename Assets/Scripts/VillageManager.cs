@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class VillageManager : MonoBehaviour
 {
 
@@ -29,6 +30,7 @@ public class VillageManager : MonoBehaviour
 
 	public InfoObject selectedObject;
 
+	public bool isPaused = false;
 	public double time;
 	//[HideInInspector]
 	public float deltaTime;
@@ -37,9 +39,20 @@ public class VillageManager : MonoBehaviour
 	public const int oneMinute = 60;
 	public const int oneHour = 60 * oneMinute;
 	public const int oneDay = 24 * oneHour;
+	public const int oneSeason = oneDay * 8;
 
-	private double simStartTime = 7 * oneHour;
+	public enum Season
+	{
+		Winter,
+		Spring,
+		Summer,
+		Fall,
+	}
 
+	private Season simstartSeason = Season.Spring; //default season, since it doesnt get saved sim always starts spring
+	private double simStartTime = 7 * oneHour; //at what point the simulaion starts. Everything before the very first schedule task will make the simulation idle until then
+
+	private int day;
 
 	//Resources
 	public int iron = 0;
@@ -60,10 +73,19 @@ public class VillageManager : MonoBehaviour
 	void Awake()
 	{
 		time += simStartTime;
+		time += (int)simstartSeason * oneSeason;
+		isPaused = false;
+		day = GetDays();
 	}
 	void Start()
 	{
 		Debug.Log(buildings.Count);
+		StartingResources(); //modify to change, hardcode only right now; though u can always just change the resources in the inspector
+	}
+
+	void StartingResources()
+	{
+		//nothing for now, maybe later
 	}
 
 	// Update is called once per frame
@@ -85,11 +107,49 @@ public class VillageManager : MonoBehaviour
 
 	void TimeUpdate()
 	{
+		if(isPaused) { return; }
+
 		double timelast = time;
 		time += Time.deltaTime * timeScale;
 		double timenew = time;
 
 		deltaTime = (float)(timenew - timelast);
+
+		if(GetDays() > day)  //so i can easily track new day for happiness restore/bread reduce
+		{
+			Debug.Log("NEW DAY");
+			day = GetDays();
+
+
+			int fed = 0;
+			for (int i = 0; i < villagers.Count; i++)
+			{
+				villagers[i].ChangeHappiness(+20);
+				bread -= 1;
+
+				if (bread == 0)
+				{
+					fed = i+1;
+					break;
+				}
+			}
+
+
+			//this could easily break the thing. Careful.
+			for (int i = fed; i < villagers.Count; i++)
+			{
+				Destroy(villagers[i].gameObject);
+			}
+		}
+	}
+
+	void PauseSimulation()
+	{
+		isPaused = true;
+	}
+	void ResumeSimulation()
+	{
+		isPaused = false;
 	}
 
 	public double[] DecomposeTime()
@@ -99,12 +159,21 @@ public class VillageManager : MonoBehaviour
 		itime %= oneDay;
 		int h = itime / oneHour;
 		itime %= oneHour;
-		int m = itime / oneMinute;
-		int s = itime % oneMinute;
+		int min = itime / oneMinute;
+		int sec = itime % oneMinute;
 
 		double fraction = time - (int)time;
 
-		return new double[4] { day, h, m, fraction + s };
+		return new double[4] { day, h, min, fraction + sec };
+	}
+
+	public Season GetSeason()
+	{
+		//not in DecomposeTime() so I don't mess anything up
+		int i = ((int)time / oneSeason) % 4;
+        Season season = (Season)i;
+		Debug.Log(season);
+		return season;
 	}
 
 	public int GetDays() { return (int)DecomposeTime()[0]; }
@@ -115,6 +184,8 @@ public class VillageManager : MonoBehaviour
 
 	public void AddBuilding(Building b) { buildings.Add(b); }
 	public List<Building> GetBuildings() { return buildings; }
+	public void AddVillager(Villager v) { villagers.Add(v); }
+	public void RemoveVillager(Villager v) { villagers.Remove(v); }
 
 	void OnGUI()
 	{

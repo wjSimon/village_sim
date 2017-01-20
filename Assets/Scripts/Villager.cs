@@ -14,20 +14,26 @@ public class Villager : InfoObject
 	public Schedule schedule;
 	private Vector3 target; //<- swap with A* Path
 	private Building workplace;
-	private float speed = 0.008f; // <- ~60 mins / village
+	private float speed = 0.008f; // <- ~60 mins through whole village
 	private bool arrived = false;
-								  /*
-								  RaycastHit info = new RaycastHit();
 
-										  if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out info))
-										  {
-								  /**/
+	/*
+	RaycastHit info = new RaycastHit();
+
+			if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out info))
+			{
+	/**/
+
+	private float happiness = 100; //100 = max
+	private float happinessFactor = 1; //so I can make bipolar villagers; NOT IN USE ANYMORE
+
 	void Awake()
 	{
 		target = transform.position;
 	}
 	void Start()
 	{
+		VillageManager.Get().AddVillager(this);
 		schedule.Reset();
 	}
 
@@ -41,7 +47,7 @@ public class Villager : InfoObject
 				target = b.transform.position;
 				if (workplace != null && arrived)
 				{
-					workplace.RemoveWorker();
+					workplace.RemoveWorker(this);
 				}
 				workplace = b;
 				arrived = false;
@@ -49,11 +55,12 @@ public class Villager : InfoObject
 
 			if (b == null && arrived)
 			{
-				workplace.RemoveWorker();
+				workplace.RemoveWorker(this);
 			}
 		}
 
 		Movement();
+
 	}
 
 	void Movement()
@@ -71,9 +78,26 @@ public class Villager : InfoObject
 				//arrived at building
 				Debug.Log("arrived");
 				arrived = true;
-				workplace.AddWorker();
+				workplace.AddWorker(this);
 			}
 		}
+	}
+
+	public float ChangeHappiness(float value)
+	{
+		happiness += value * happinessFactor;
+		if(happiness > 100) { happiness = 100; }
+
+		return happiness;
+	}
+
+	public void SetHappiness(int value)
+	{
+		happiness = value > 100 ? 100 : value;
+	}
+	public float GetHappiness()
+	{
+		return happiness;
 	}
 
 	public override void DrawInfoGUI()
@@ -92,5 +116,7 @@ public class Villager : InfoObject
 		{
 			GUI.Label(new Rect(10, y, 200, 20), schedule.tasks[i].Info()); y += 20;
 		}
+
+		GUI.Label(new Rect(10, y, 200, 20), "Happiness: " + happiness.ToString()); y += 20;
 	}
 }
