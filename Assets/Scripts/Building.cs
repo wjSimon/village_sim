@@ -25,18 +25,21 @@ public class Building : InfoObject
 	private double productionTimer = 0;
 	public float happinessGain = -5;
 
-	void Awake() {
+	void Awake()
+	{
 		VillageManager.Get().AddBuilding(this);
 	}
-	void Start () {
+	void Start()
+	{
 		workers.Clear();
 		productionTimer = 0;
 
 		//Set all happiness gains by productiontype here; <- EVERYTHING is productiontype so u can make like a tavern that produces nothing/consumes stuff but increases happiness
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		Production();
 	}
 
@@ -87,10 +90,39 @@ public class Building : InfoObject
 
 					break;
 				case ProductionEnum.BREAD:
+					if (productionTimer > VillageManager.oneHour)
+					{
+						if (VillageManager.Get().flour >= 1)
+						{
+							VillageManager.Get().bread += 4;
+							VillageManager.Get().flour -= 1;
+							productionTimer = 0;
+
+							TickCycle();
+						}
+					}
 					break;
 				case ProductionEnum.FLOUR:
+					if (productionTimer > VillageManager.oneHour)
+					{
+						if (VillageManager.Get().wheat >= 3)
+						{
+							VillageManager.Get().flour += 1;
+							VillageManager.Get().wheat -= 3;
+							productionTimer = 0;
+
+							TickCycle();
+						}
+					}
 					break;
 				case ProductionEnum.WHEAT:
+					if (productionTimer > VillageManager.oneHour)
+					{
+						VillageManager.Get().wheat += 1;
+						productionTimer = 0;
+
+						TickCycle();
+					}
 					break;
 			}
 		}
@@ -102,7 +134,7 @@ public class Building : InfoObject
 		for (int i = 0; i < workers.Count; i++)
 		{
 			float h = workers[i].ChangeHappiness(happinessGain);
-			if(h <= 25) { RemoveWorker(workers[i]); } //doesn't work anymore if worker is really ｓａｄｂｏｙｓ, but doesn't stop schedule so theres punishment for overworking villagers
+			if (h <= 25) { RemoveWorker(workers[i]); } //doesn't work anymore if worker is really ｓａｄｂｏｙｓ, but doesn't stop schedule so theres punishment for overworking villagers
 		}
 	}
 
