@@ -5,6 +5,13 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Task {
 
+	public Task(string startTime, string action, string target)
+	{
+		this.startTime = startTime;
+		this.action = action;
+		this.target = target;
+	}
+
 	public string startTime;
 	public string action;
 	public string target;

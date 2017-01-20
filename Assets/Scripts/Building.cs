@@ -44,7 +44,8 @@ public class Building : InfoObject
 	}
 
 	void Production()
-	{
+	{ 
+		if(GetComponent<SeasonFilter>() != null && GetComponent<SeasonFilter>().filter.Contains(VillageManager.Get().GetSeason())) { return; } //if this building can't produce during current season
 		if (workers.Count > 0)
 		{
 			productionTimer += VillageManager.Get().deltaTime;

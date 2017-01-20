@@ -42,6 +42,11 @@ public class Schedule {
 		return false;
 	}
 
+	public void AddTask(Task t)
+	{
+		tasks.Add(t);
+	}
+
 	public Building GetTarget()
 	{
 		Task tmp = tasks[currentTask];

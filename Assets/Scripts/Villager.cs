@@ -24,7 +24,7 @@ public class Villager : InfoObject
 			{
 	/**/
 
-	private float happiness = 100; //100 = max
+	public float happiness = 100; //100 = max
 	private float happinessFactor = 1; //so I can make bipolar villagers; NOT IN USE ANYMORE
 
 	void Awake()

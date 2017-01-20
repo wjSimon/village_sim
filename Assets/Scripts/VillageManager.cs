@@ -19,11 +19,12 @@ public class VillageManager : MonoBehaviour
 - Ressourcen-System < DONE 
 - Villager anklicken für Infos // 
 - Jahreszeiten, beeinflussen Schedules/Ressourcen
-- Villager Relations
+- Villager Relations SCRAPPED
 - Emotion/Happiness System
 	/**/
 
 	private static VillageManager instance;
+	private VillageScheduler scheduler;
 
 	public List<Villager> villagers = new List<Villager>();
 	private List<Building> buildings = new List<Building>();
@@ -81,6 +82,8 @@ public class VillageManager : MonoBehaviour
 	{
 		Debug.Log(buildings.Count);
 		StartingResources(); //modify to change, hardcode only right now; though u can always just change the resources in the inspector
+		scheduler = new VillageScheduler();
+		scheduler.Init(this);
 	}
 
 	void StartingResources()
