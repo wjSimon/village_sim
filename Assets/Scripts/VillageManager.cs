@@ -124,21 +124,22 @@ public class VillageManager : MonoBehaviour
 			int fed = 0;
 			for (int i = 0; i < villagers.Count; i++)
 			{
-				villagers[i].ChangeHappiness(+20);
-				bread -= 1;
-
-				if (bread == 0)
+				//villagers[i].ChangeHappiness(+20);
+				if(bread > 0) { bread -= 1; fed += 1; }
+				else
 				{
-					fed = i+1;
+					Debug.LogWarning(fed);
 					break;
 				}
 			}
 
-
 			//this could easily break the thing. Careful.
-			for (int i = fed; i < villagers.Count; i++)
+			for (int i = 0; i < villagers.Count - fed; i++)
 			{
-				Destroy(villagers[i].gameObject);
+				int v = Random.Range(0, villagers.Count); //kills them at random, not by add order
+				Debug.LogWarning(v);
+				Debug.Log(villagers[v].objectName + " has died. (starvation)");
+				villagers[v].Kill();
 			}
 		}
 	}

@@ -10,6 +10,7 @@ public enum ProductionEnum
 	WHEAT,
 	FLOUR,
 	BREAD,
+	HAPPINESS,
 	NONE,
 }
 public class Building : InfoObject
@@ -22,7 +23,7 @@ public class Building : InfoObject
 	public List<Villager> workers = new List<Villager>();
 
 	private double productionTimer = 0;
-	public int happinessGain = -5;
+	public float happinessGain = -5;
 
 	void Awake() {
 		VillageManager.Get().AddBuilding(this);
@@ -49,6 +50,14 @@ public class Building : InfoObject
 			{
 				case ProductionEnum.NONE:
 					break;
+				case ProductionEnum.HAPPINESS:
+					if (productionTimer > VillageManager.oneHour)
+					{
+						productionTimer = 0;
+						TickCycle();
+					}
+					break;
+
 				case ProductionEnum.IRON:
 					if (productionTimer > VillageManager.oneHour)
 					{

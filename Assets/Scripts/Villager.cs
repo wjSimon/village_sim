@@ -88,16 +88,26 @@ public class Villager : InfoObject
 		happiness += value * happinessFactor;
 		if(happiness > 100) { happiness = 100; }
 
+		if(happiness <= 0) { Kill(); } //this actually cannot happen right now unless u force it by setting it by hand
+
 		return happiness;
 	}
 
 	public void SetHappiness(int value)
 	{
 		happiness = value > 100 ? 100 : value;
+
+		if(happiness <= 0) { Kill(); }
 	}
 	public float GetHappiness()
 	{
 		return happiness;
+	}
+
+	public void Kill()
+	{
+		if(workplace != null) workplace.RemoveWorker(this);
+		Destroy(gameObject);
 	}
 
 	public override void DrawInfoGUI()
